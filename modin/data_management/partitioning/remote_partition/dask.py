@@ -1,11 +1,16 @@
-import pandas
 import dask.dataframe
+import pandas
+
+from modin import dask_store
 
 from .base_remote_partition import BaseRemotePartition
 from .utils import length_fn_pandas, width_fn_pandas
 
 
 class DaskRemotePartition(BaseRemotePartition):
+
+    _disk_store = dask_store.DiskStore()
+
     def __init__(self, dask_obj):
         self.dask_obj = dask_obj
 
@@ -68,7 +73,7 @@ class DaskRemotePartition(BaseRemotePartition):
             A `RemotePartitions` object.
         """
         # simply wrap the input object by dask.delayed
-        return cls(dask.delayed(obj))
+        return cls(cls._disk_store.put_wrap(obj))
 
     @classmethod
     def preprocess_func(cls, func):
