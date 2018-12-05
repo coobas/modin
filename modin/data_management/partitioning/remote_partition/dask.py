@@ -56,6 +56,9 @@ class DaskRemotePartition(BaseRemotePartition):
         self.delayed_call = dask.delayed(func)(self.delayed_call, **kwargs)
         return self
 
+    def __copy__(self):
+        return self.__class__(self.dask_obj)
+
     def to_pandas(self):
         """Convert the object stored in this partition to a Pandas DataFrame.
 
