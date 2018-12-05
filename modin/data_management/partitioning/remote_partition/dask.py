@@ -26,7 +26,7 @@ class DaskRemotePartition(BaseRemotePartition):
         delayed_call = self.delayed_call
         self.delayed_call = self.dask_obj
 
-        return self.delayed_call.compute()
+        return delayed_call.compute()
 
     def apply(self, func, **kwargs):
         """Apply some callable function to the data in this partition.
