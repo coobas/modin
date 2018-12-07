@@ -22,7 +22,10 @@ class DaskRemotePartition(BaseRemotePartition):
         Returns:
             The object that was `put`.
         """
+        
+        delayed_call = self.delayed_call
         self.delayed_call = self.dask_obj
+
         return self.delayed_call.compute()
 
     def apply(self, func, **kwargs):
